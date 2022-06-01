@@ -16,6 +16,7 @@ import io.quarkus.test.junit.QuarkusTest;
 import org.assertj.core.api.Assertions;
 
 import edu.poniperro.resources.entities.Item;
+import edu.poniperro.resources.entities.Orden;
 import edu.poniperro.resources.entities.Usuaria;
 import edu.poniperro.resources.service.SerivceOlli;
 
@@ -66,14 +67,13 @@ public class ServiceTest {
     // * de la clase Orden a la tabla t_ordenes
     // * El id de esta clase ha de seguir una estrategia Identity
     // */
-    // @Test
-    // public void test_mapping_orden() {
-    // Orden pedido = em.find(Orden.class, 1L);
-    // Assertions.assertThat(pedido).isNotNull();
-    // Assertions.assertThat(pedido.getUser().getNombre()).isEqualTo("Doobey");
-    // Assertions.assertThat(pedido.getItem().getNombre()).isEqualToIgnoringCase("Elixir
-    // of the Mongoose");
-    // }
+    @Test
+    public void test_mapping_orden() {
+        Orden pedido = em.find(Orden.class, 1L);
+        Assertions.assertThat(pedido).isNotNull();
+        Assertions.assertThat(pedido.getUser().getNombre()).isEqualTo("Doobey");
+        Assertions.assertThat(pedido.getItem().getNombre()).isEqualToIgnoringCase("Elixir of the Mongoose");
+    }
 
     // /** SERVICIO */
 
