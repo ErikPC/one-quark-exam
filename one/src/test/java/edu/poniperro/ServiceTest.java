@@ -13,7 +13,9 @@ import javax.inject.*;
 import org.junit.jupiter.api.Test;
 
 import io.quarkus.test.junit.QuarkusTest;
+import org.assertj.core.api.Assertions;
 
+import edu.poniperro.resources.entities.Item;
 import edu.poniperro.resources.service.SerivceOlli;
 
 @QuarkusTest
@@ -23,7 +25,7 @@ public class ServiceTest {
     EntityManager em;
 
     @Inject
-    ServiceOlli servicio;
+    SerivceOlli serivceOlli;
 
     // /**
     // * MAPPINGS de la entidades a las tablas de la BBDD.
@@ -37,15 +39,14 @@ public class ServiceTest {
     // * Completa la definicion y el mapping
     // * de la clase Item a la tabla t_items
     // */
-    // @Test
-    // public void test_mapping_normalItem() {
-    // Item elixir = em.find(Item.class, "Elixir of the Mongoose");
-    // Assertions.assertThat(elixir).isNotNull();
-    // Assertions.assertThat(elixir.getNombre()).isEqualTo("Elixir of the
-    // Mongoose");
-    // Assertions.assertThat(elixir.getQuality()).isEqualTo(7);
-    // Assertions.assertThat(elixir.getTipo()).isEqualTo("NormalItem");
-    // }
+    @Test
+    public void test_mapping_normalItem() {
+        Item elixir = em.find(Item.class, "Elixir of the Mongoose");
+        Assertions.assertThat(elixir).isNotNull();
+        Assertions.assertThat(elixir.getNombre()).isEqualTo("Elixir of the Mongoose");
+        Assertions.assertThat(elixir.getQuality()).isEqualTo(7);
+        Assertions.assertThat(elixir.getTipo()).isEqualTo("NormalItem");
+    }
 
     // /**
     // * Completa la definicion y el mapping
