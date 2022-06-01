@@ -16,6 +16,7 @@ import io.quarkus.test.junit.QuarkusTest;
 import org.assertj.core.api.Assertions;
 
 import edu.poniperro.resources.entities.Item;
+import edu.poniperro.resources.entities.Usuaria;
 import edu.poniperro.resources.service.SerivceOlli;
 
 @QuarkusTest
@@ -52,13 +53,13 @@ public class ServiceTest {
     // * Completa la definicion y el mapping
     // * de la clase Usuaria a la tabla t_users
     // */
-    // @Test
-    // public void test_mapping_usuaria() {
-    // Usuaria elfo = em.find(Usuaria.class, "Doobey");
-    // Assertions.assertThat(elfo).isNotNull();
-    // Assertions.assertThat(elfo.getNombre()).isEqualTo("Doobey");
-    // Assertions.assertThat(elfo.getDestreza()).isEqualTo(15);
-    // }
+    @Test
+    public void test_mapping_usuaria() {
+        Usuaria elfo = em.find(Usuaria.class, "Doobey");
+        Assertions.assertThat(elfo).isNotNull();
+        Assertions.assertThat(elfo.getNombre()).isEqualTo("Doobey");
+        Assertions.assertThat(elfo.getDestreza()).isEqualTo(15);
+    }
 
     // /**
     // * Completa la definicion y el mapping
