@@ -22,11 +22,11 @@ public class Item extends PanacheEntityBase {
     @Id
     @Column(name = "item_nom")
     @NotNull
-    private String nombre;
+    private String nombre = "";
 
     @Column(name = "item_prop")
-    private Integer quality;
+    private Integer quality = 0;
 
     @Column(name = "item_tipo")
-    private String tipo;
+    private String tipo = "";
 }
