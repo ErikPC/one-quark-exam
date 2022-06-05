@@ -23,10 +23,15 @@ import lombok.Setter;
 @Table(name = "t_ordenes")
 public class Orden extends PanacheEntityBase {
 
+    public Orden(Usuaria user, Item item) {
+        this.user = user;
+        this.item = item;
+    }
+
     @Id
     @Column(name = "ord_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long nombre;
+    private Long id;
 
     @JoinColumn(name = "ord_user")
     @ManyToOne
@@ -35,4 +40,5 @@ public class Orden extends PanacheEntityBase {
     @JoinColumn(name = "ord_item")
     @ManyToOne
     private Item item;
+
 }

@@ -33,7 +33,7 @@ insert into
         ('Elixir of the Mongoose', 7, 'NormalItem'),
         ('AgedBrie', 10, 'NormalItem');
 insert into 
-    t_ordenes (ord_id, ord_user, ord_item) 
+    t_ordenes (ord_user, ord_item) 
     values 
-        (1L,'Doobey','Elixir of the Mongoose'),
-        (2L,'Hermione','+5 Dexterity Vest');
+        ('Doobey','Elixir of the Mongoose'),
+        ('Hermione','+5 Dexterity Vest');

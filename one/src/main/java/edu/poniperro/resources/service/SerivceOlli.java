@@ -35,4 +35,10 @@ public class SerivceOlli {
         return listOrden;
 
     }
+
+    public Orden comanda(String nombreUser, String nombreItem) {
+        Optional<Usuaria> usuaria = Usuaria.findByIdOptional(nombreUser);
+        Optional<Item> item = Item.findByIdOptional(nombreUser);
+        return usuaria.isPresent() && item.isPresent() ? new Orden(usuaria.get(), item.get()) : null;
+    }
 }
