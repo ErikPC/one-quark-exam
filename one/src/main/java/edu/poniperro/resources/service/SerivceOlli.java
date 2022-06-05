@@ -1,5 +1,6 @@
 package edu.poniperro.resources.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -37,8 +38,42 @@ public class SerivceOlli {
     }
 
     public Orden comanda(String nombreUser, String nombreItem) {
-        Optional<Usuaria> usuaria = Usuaria.findByIdOptional(nombreUser);
-        Optional<Item> item = Item.findByIdOptional(nombreUser);
-        return usuaria.isPresent() && item.isPresent() ? new Orden(usuaria.get(), item.get()) : null;
+        Optional<Usuaria> usuaria = getOptionalUsuaria(nombreUser);
+        Optional<Item> item = getOptionaItem(nombreItem);
+        if (usuaria.isPresent() && item.isPresent() && comprobarCalidad(usuaria, item)) {
+            Orden orden = new Orden(usuaria.get(), item.get());
+            orden.persist();
+            return orden;
+        } else {
+            return null;
+        }
+    }
+
+    private boolean comprobarCalidad(Optional<Usuaria> user, Optional<Item> item) {
+        return user.get().getDestreza() >= item.get().getQuality();
+    }
+
+    private Optional<Usuaria> getOptionalUsuaria(String nombre) {
+        return Usuaria.findByIdOptional(nombre);
+    }
+
+    private Optional<Item> getOptionaItem(String nombre) {
+        return Item.findByIdOptional(nombre);
+    }
+
+    public List<Orden> comandaMultiple(String nombre, List<String> items) {
+        Optional<Usuaria> usuaria = getOptionalUsuaria(nombre);
+        List<Orden> listaOrdenes = new ArrayList<Orden>();
+        if (usuaria.isEmpty()) {
+            return listaOrdenes;
+        }
+        for (String item : items) {
+            Orden orden = comanda(nombre, item);
+            if (orden != null) {
+                listaOrdenes.add(orden);
+            }
+        }
+        return listaOrdenes;
+
     }
 }
