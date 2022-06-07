@@ -3,7 +3,6 @@ package edu.poniperro;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import javax.transaction.Transactional;
 
 import java.util.Arrays;
 import java.util.List;
@@ -12,6 +11,7 @@ import javax.inject.*;
 
 import org.junit.jupiter.api.Test;
 
+import io.quarkus.test.TestTransaction;
 import io.quarkus.test.junit.QuarkusTest;
 import org.assertj.core.api.Assertions;
 
@@ -174,7 +174,7 @@ public class ServiceTest {
     // * El metodo devuelve la orden de tipo Orden creada.
     // */
     @Test
-    @Transactional
+    @TestTransaction
     public void test_comanda_ok() {
         Assertions.assertThat(servicio).isNotNull();
         Orden orden = servicio.comanda("Hermione", "AgedBrie");
@@ -200,7 +200,7 @@ public class ServiceTest {
     // * si no existe la usuaria en la base de datos.
     // */
     @Test
-    @Transactional
+    @TestTransaction
     public void test_comanda_no_user() {
         Assertions.assertThat(servicio).isNotNull();
         Orden orden = servicio.comanda("Severus", "+5 Dexterity Vest");
@@ -263,7 +263,7 @@ public class ServiceTest {
     // */
 
     @Test
-    @Transactional
+    @TestTransaction
     public void test_ordenar_multiples_items_ok() {
         Assertions.assertThat(servicio).isNotNull();
         List<Orden> ordenes = servicio.comandaMultiple("Hermione", Arrays.asList("AgedBrie", "Elixir of the Mongoose"));
@@ -285,7 +285,7 @@ public class ServiceTest {
 
     // // No se permiten ordenes si el usuario no existe en la base de datos
     @Test
-    @Transactional
+    @TestTransaction
     public void test_ordenar_multiples_items_no_user() {
         Assertions.assertThat(servicio).isNotNull();
         List<Orden> ordenes = servicio.comandaMultiple("Severus",
@@ -295,7 +295,7 @@ public class ServiceTest {
 
     // // No se ordenan items que no existan en la base de datos
     @Test
-    @Transactional
+    @TestTransaction
     public void test_ordenar_multiples_items_no_item() {
         Assertions.assertThat(servicio).isNotNull();
         List<Orden> ordenes = servicio.comandaMultiple("Hermione",
@@ -304,7 +304,7 @@ public class ServiceTest {
     }
 
     @Test
-    @Transactional
+    @TestTransaction
     public void test_ordenar_multiples_items_variado() {
         Assertions.assertThat(servicio).isNotNull();
         List<Orden> ordenes = servicio.comandaMultiple("Hermione",
