@@ -17,6 +17,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import edu.poniperro.resources.ResourcesOlli;
+import edu.poniperro.resources.entities.Orden;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.common.mapper.TypeRef;
 import io.restassured.http.ContentType;
@@ -96,55 +97,51 @@ public class ResourcesTest {
      * // * y status code 201 si ha sido generada y 404 en caso contrario.
      * //
      */
-    // @Test
-    // @Transactional
-    // public void test_post_ok() {
+    @Test
+    @Transactional
+    public void test_post_ok() {
 
-    // given()
-    // .body("{\"user\": {\"nombre\": \"Hermione\"}, \"item\": {\"nombre\":
-    // \"AgedBrie\"}}")
-    // .header("Content-Type", MediaType.APPLICATION_JSON)
-    // .when()
-    // .post("/ordena")
-    // .then()
-    // .statusCode(201)
-    // .contentType(ContentType.JSON)
-    // .body("user.nombre", equalTo("Hermione"),
-    // "item.nombre", equalTo("AgedBrie"));
+        given()
+                .body("{\"user\": {\"nombre\": \"Hermione\"}, \"item\": {\"nombre\":\"AgedBrie\"}}")
+                .header("Content-Type", MediaType.APPLICATION_JSON)
+                .when()
+                .post("/ordena")
+                .then()
+                .statusCode(201)
+                .contentType(ContentType.JSON)
+                .body("user.nombre", equalTo("Hermione"),
+                        "item.nombre", equalTo("AgedBrie"));
 
-    // // rollback BBDD
-    // TypedQuery<Orden> query = em.createQuery(
-    // "select orden from Orden orden join orden.user user where user.nombre =
-    // 'Hermione'", Orden.class);
-    // List<Orden> pedidos = query.getResultList();
-    // Assertions.assertThat(pedidos).isNotNull();
-    // Assertions.assertThat(pedidos).hasSize(2);
-    // Assertions.assertThat(pedidos.get(1).getUser().getNombre()).isEqualTo("Hermione");
-    // Assertions.assertThat(pedidos.get(1).getItem().getNombre()).isEqualToIgnoringCase("AgedBrie");
-    // em.find(Orden.class, pedidos.get(1).getId()).delete();
-    // }
+        // rollback BBDD
+        TypedQuery<Orden> query = em.createQuery(
+                "select orden from Orden orden join orden.user user where user.nombre = 'Hermione'", Orden.class);
+        List<Orden> pedidos = query.getResultList();
+        Assertions.assertThat(pedidos).isNotNull();
+        Assertions.assertThat(pedidos).hasSize(2);
+        Assertions.assertThat(pedidos.get(1).getUser().getNombre()).isEqualTo("Hermione");
+        Assertions.assertThat(pedidos.get(1).getItem().getNombre()).isEqualToIgnoringCase("AgedBrie");
+        em.find(Orden.class, pedidos.get(1).getId()).delete();
+    }
 
     // // Si la usuaria o el item no existen el controlador devuelve 404
-    // @Test
-    // public void test_post_ko() {
-    // given()
-    // .body("{\"user\": {\"nombre\": \"Severus\"}, \"item\": {\"nombre\":
-    // \"AgedBrie\"}}")
-    // .header("Content-Type", MediaType.APPLICATION_JSON)
-    // .when()
-    // .post("/ordena")
-    // .then()
-    // .statusCode(404);
+    @Test
+    public void test_post_ko() {
+        given()
+                .body("{\"user\": {\"nombre\": \"Severus\"}, \"item\": {\"nombre\":\"AgedBrie\"}}")
+                .header("Content-Type", MediaType.APPLICATION_JSON)
+                .when()
+                .post("/ordena")
+                .then()
+                .statusCode(404);
 
-    // given()
-    // .body("{\"user\": {\"nombre\": \"Doobey\"}, \"item\": {\"nombre\": \"Varita
-    // de Sauco\"}}")
-    // .header("Content-Type", MediaType.APPLICATION_JSON)
-    // .when()
-    // .post("/ordena")
-    // .then()
-    // .statusCode(404);
-    // }
+        given()
+                .body("{\"user\": {\"nombre\": \"Doobey\"}, \"item\": {\"nombre\": \"Varita de Sauco\"}}")
+                .header("Content-Type", MediaType.APPLICATION_JSON)
+                .when()
+                .post("/ordena")
+                .then()
+                .statusCode(404);
+    }
 
     // /**
     // * Obten los pedidos de una usuaria mediante
@@ -152,22 +149,22 @@ public class ResourcesTest {
     // * /pedidos/{usuaria}
     // */
 
-    // @Test
-    // public void test_pedidos_usuaria() {
+    @Test
+    public void test_pedidos_usuaria() {
 
-    // List<Map<String, Object>> pedidos = given()
-    // .contentType(ContentType.JSON)
-    // .when()
-    // .get("/pedidos/{usuaria}", "Hermione")
-    // .as(new TypeRef<List<Map<String, Object>>>() {
-    // });
+        List<Map<String, Object>> pedidos = given()
+                .contentType(ContentType.JSON)
+                .when()
+                .get("/pedidos/{usuaria}", "Hermione")
+                .as(new TypeRef<List<Map<String, Object>>>() {
+                });
 
-    // Assertions.assertThat(pedidos).hasSize(1);
-    // Assertions.assertThat(pedidos.get(0).get("user")).hasFieldOrPropertyWithValue("nombre",
-    // "Hermione");
-    // Assertions.assertThat(pedidos.get(0).get("item")).hasFieldOrPropertyWithValue("nombre",
-    // "+5 Dexterity Vest");
-    // }
+        Assertions.assertThat(pedidos).hasSize(1);
+        Assertions.assertThat(pedidos.get(0).get("user")).hasFieldOrPropertyWithValue("nombre",
+                "Hermione");
+        Assertions.assertThat(pedidos.get(0).get("item")).hasFieldOrPropertyWithValue("nombre",
+                "+5 Dexterity Vest");
+    }
 
     // /**
     // * La peticion
@@ -175,26 +172,26 @@ public class ResourcesTest {
     // * ha de retornar el nombre y la calidad
     // * del Item indicado de la base de datos.
     // */
-    // @Test
-    // public void test_get_item() {
+    @Test
+    public void test_get_item() {
 
-    // // Si el item existe la respuesta es 200
-    // given()
-    // .pathParam("nombre", "AgedBrie")
-    // .when()
-    // .get("/item/{nombre}")
-    // .then()
-    // .statusCode(200)
-    // .contentType(ContentType.JSON)
-    // .body("nombre", equalTo("AgedBrie"),
-    // "quality", equalTo(10));
+        // Si el item existe la respuesta es 200
+        given()
+                .pathParam("nombre", "AgedBrie")
+                .when()
+                .get("/item/{nombre}")
+                .then()
+                .statusCode(200)
+                .contentType(ContentType.JSON)
+                .body("nombre", equalTo("AgedBrie"),
+                        "quality", equalTo(10));
 
-    // // Si el item no existe la respuesta es 404
-    // given()
-    // .pathParam("nombre", "Varita de Sauco")
-    // .when()
-    // .get("/item/{nombre}")
-    // .then()
-    // .statusCode(404);
-    // }
+        // Si el item no existe la respuesta es 404
+        given()
+                .pathParam("nombre", "Varita de Sauco")
+                .when()
+                .get("/item/{nombre}")
+                .then()
+                .statusCode(404);
+    }
 }
