@@ -1,10 +1,8 @@
 package edu.poniperro.resources;
 
 import java.util.List;
-import java.util.Optional;
 
 import javax.inject.Inject;
-import javax.print.attribute.standard.Media;
 import javax.transaction.Transactional;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
